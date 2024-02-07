@@ -1,5 +1,6 @@
 insert into s_roles(id, name)
-values ('Ch79ShX11PSeViQp5tTcUxBDTijrrM', 'ADMIN');
+values ('Ch79ShX11PSeViQp5tTcUxBDTijrrM', 'ADMIN'),
+       ('Ch79ShX11PSeViQp5tTcUxBDTijeml', 'EMPLOYE');
 
 -- password: admin768896
 insert into s_users(id, active, password, username, id_role)
@@ -15,4 +16,5 @@ insert into s_roles_permissions(id_role, id_permission)
 values ('Ch79ShX11PSeViQp5tTcUxBDTijrrM', 'P001'),
        ('Ch79ShX11PSeViQp5tTcUxBDTijrrM', 'P002'),
        ('Ch79ShX11PSeViQp5tTcUxBDTijrrM', 'P003'),
-       ('Ch79ShX11PSeViQp5tTcUxBDTijrrM', 'P004');
+       ('Ch79ShX11PSeViQp5tTcUxBDTijrrM', 'P004'),
+       ('Ch79ShX11PSeViQp5tTcUxBDTijeml', 'P001');

@@ -1,5 +1,6 @@
 package com.mrizkisaputra.auth.models.entity;
 
+import com.mrizkisaputra.models.entity.Employee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -15,11 +16,9 @@ public class ApplicationUser {
     @GenericGenerator(name = "system-uuid", strategy = "uuid2")
     private String id;
 
-    @NotNull @NotEmpty @Size(min = 8, max = 255)
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
-    @NotNull @NotEmpty @Size(min = 8, max = 255)
     private String password;
 
     private Boolean active = Boolean.TRUE;
@@ -28,6 +27,10 @@ public class ApplicationUser {
     @ManyToOne
     @JoinColumn(name = "id_role", referencedColumnName = "id")
     private ApplicationRole role;
+
+    @OneToOne
+    @JoinColumn(name = "id_employee", referencedColumnName = "id")
+    private Employee employee;
 
     public ApplicationUser() { }
 }

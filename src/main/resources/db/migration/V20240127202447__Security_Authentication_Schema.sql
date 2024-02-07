@@ -30,8 +30,29 @@ CREATE TABLE s_users
     password character varying(255) NOT NULL,
     username character varying(255) NOT NULL,
     id_role  character varying(255) NOT NULL,
+    id_employee  character varying(255),
     unique (username)
 );
+
+CREATE TABLE employees
+(
+    id               character varying(255) NOT NULL,
+    name             character varying(100) NOT NULL,
+    password_account character varying(255) NOT NULL,
+    registrated      character varying(255),
+    salary           character varying(255) NOT NULL,
+    status_account   character varying(255),
+    user_account     character varying(255) NOT NULL,
+    work_location    character varying(255) NOT NULL,
+    CONSTRAINT employees_status_account_check CHECK (((status_account)::text = ANY ((ARRAY['ACTIVE':: character varying, 'INACTIVE':: character varying, 'LOCKED':: character varying])::text[])
+) ),
+    CONSTRAINT employees_work_location_check CHECK (((work_location)::text = ANY ((ARRAY['CABANG_1'::character varying, 'CABANG_2'::character varying])::text[])))
+);
+
+
+
+ALTER TABLE ONLY employees
+    ADD CONSTRAINT employees_pkey PRIMARY KEY (id);
 
 
 ALTER TABLE ONLY s_permissions
@@ -47,11 +68,14 @@ ALTER TABLE ONLY s_users
     ADD CONSTRAINT s_users_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY s_users
-    ADD CONSTRAINT fk4k103cqcehdbobgrydgsa44gu FOREIGN KEY (id_role) REFERENCES public.s_roles(id);
+    ADD CONSTRAINT fk4k103cqcehdbobgrydgsa44gu FOREIGN KEY (id_role) REFERENCES s_roles(id);
+
+ALTER TABLE ONLY s_users
+    ADD CONSTRAINT fk4k103cqcehdbobgrydg12e4d6 FOREIGN KEY (id_employee) REFERENCES employees(id);
 
 ALTER TABLE ONLY s_roles_permissions
-    ADD CONSTRAINT fk58sqqjg0ldl3phs2fqbm6c19c FOREIGN KEY (id_role) REFERENCES public.s_roles(id);
+    ADD CONSTRAINT fk58sqqjg0ldl3phs2fqbm6c19c FOREIGN KEY (id_role) REFERENCES s_roles(id);
 
 ALTER TABLE ONLY s_roles_permissions
-    ADD CONSTRAINT fkiqxh1rv3syrwn7cagiebq9es7 FOREIGN KEY (id_permission) REFERENCES public.s_permissions(id);
+    ADD CONSTRAINT fkiqxh1rv3syrwn7cagiebq9es7 FOREIGN KEY (id_permission) REFERENCES s_permissions(id);
 

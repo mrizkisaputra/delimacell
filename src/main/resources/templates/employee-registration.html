@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee | Delimacell</title>
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container-fluid px-4">
+        <h1 class="mt-4" th:text="#{employee.text.employee}"></h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active" th:text="#{employee.text.employee}"></li>
+        </ol>
+        <div class="card mb-4">
+            <div class="alert alert-danger" role="alert" th:if="${existUserAccount}" th:text="${existUserAccount}"></div>
+            <div class="card-header" th:text="#{employee.text.registration}"></div>
+            <div class="card-body">
+                <form th:object="${employee}" method="post" th:action="@{/employee/registration}" enctype="application/x-www-form-urlencoded">
+                    <div class="mb-3">
+                        <label for="name" th:text="#{employee.text.name}" class="mb-2"></label>
+                        <input th:field="*{name}" type="text" th:errorclass="is-invalid" class="form-control" id="name" placeholder="example: muhammat rizki saputra">
+                        <div id="nameInvalid" class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="salary" th:text="#{employee.text.salary}" class="mb-2"></label>
+                        <div class="input-group">
+                            <span class="input-group-text">Rp</span>
+                            <input th:field="*{salary}" th:errorclass="is-invalid" type="number" class="form-control" id="salary" placeholder="example: 2000000">
+                            <span class="input-group-text">.00</span>
+                            <div id="salaryInvalid" class="invalid-feedback" th:if="${#fields.hasErrors('salary')}" th:errors="*{salary}"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="workplace" th:text="#{employee.text.work-location}" class="mb-2"></label>
+                        <select th:field="*{workLocation}" id="workplace" class="form-select" aria-label="Default select example">
+                            <option th:each="type: ${workLocations}" th:value="${type}" th:text="${type.getDetail()}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="username-account" th:text="#{employee.text.username}" class="mb-2"></label>
+                        <input th:field="*{userAccount}" th:errorclass="is-invalid" type="text" class="form-control" id="username-account" placeholder="example: rizkisaputra">
+                        <div id="userAccountInvalid" class="invalid-feedback" th:if="${#fields.hasErrors('userAccount')}" th:errors="*{userAccount}"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password-account" th:text="#{employee.text.password}" class="mb-2"></label>
+                        <input th:field="*{passwordAccount}" th:errorclass="is-invalid" type="password" class="form-control" id="password-account" placeholder="example: rahasia123">
+                        <div id="passwordAccountInvalid" class="invalid-feedback" th:if="${#fields.hasErrors('passwordAccount')}" th:errors="*{passwordAccount}"></div>
+                    </div>
+                    <button type="submit" class="btn btn-success" style="width: 100%;" th:text="#{employee.text.registration}"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
