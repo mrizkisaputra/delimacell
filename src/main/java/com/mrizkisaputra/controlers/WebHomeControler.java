@@ -14,7 +14,7 @@ public class WebHomeControler {
     ApplicationUserService userService;
     @GetMapping(path = "/")
     public String domain() {
-        return "login";
+        return "home";
     }
     @GetMapping(path = "/home")
     public String homeView(Authentication user, Model model) {

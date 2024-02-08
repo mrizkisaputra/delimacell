@@ -28,4 +28,7 @@ public class ApplicationUserService {
         userRepository.deleteByEmployee_Id(id);
     }
 
+    public ApplicationUser findByIdEmployee(String idEmployee) {
+        return userRepository.findByEmployee_Id(idEmployee);
+    }
 }

@@ -1,5 +1,6 @@
 package com.mrizkisaputra.models.entity;
 
+import com.mrizkisaputra.auth.models.entity.ApplicationUser;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -38,4 +39,7 @@ public class Employee {
 
     @Column(nullable = false)
     private String passwordAccount;
+
+    @OneToOne(mappedBy = "employee")
+    private ApplicationUser applicationUser;
 }

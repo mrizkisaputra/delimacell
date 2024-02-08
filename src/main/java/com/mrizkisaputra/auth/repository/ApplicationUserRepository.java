@@ -12,4 +12,6 @@ public interface ApplicationUserRepository extends JpaRepository<ApplicationUser
     String findRoleNameByUsername(@Param("username") String username);
 
     void deleteByEmployee_Id(String id);
+
+    ApplicationUser findByEmployee_Id(String id);
 }

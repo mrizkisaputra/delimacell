@@ -13,7 +13,15 @@ public interface EmployeeService {
 
     void removeEmployee(String id);
 
+    void lockEmployeeAccount(String id);
+
+    Employee findById(String id);
+
+    Employee findByUserAccount(String userAccount);
+
     default public Boolean existUserAccount(String userAccount) {
         return Boolean.TRUE;
     }
+
+    void unlockEmployeeAccount(String id);
 }

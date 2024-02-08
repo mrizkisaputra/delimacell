@@ -3,6 +3,7 @@ package com.mrizkisaputra.controlers;
 import com.mrizkisaputra.auth.services.ApplicationUserService;
 import com.mrizkisaputra.models.dto.CreateEmployeeDTO;
 import com.mrizkisaputra.models.entity.Employee;
+import com.mrizkisaputra.models.entity.StatusAccount;
 import com.mrizkisaputra.models.entity.WorkLocation;
 import com.mrizkisaputra.services.EmployeeService;
 import jakarta.validation.Valid;
@@ -13,15 +14,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @Slf4j
@@ -59,7 +57,7 @@ public class EmployeeController {
     @PostMapping(path = "/employee/registration", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public String employeeRegistration(@Valid @ModelAttribute("employee") CreateEmployeeDTO employee, BindingResult bindingResult, Model model) {
         if (employeeService.existUserAccount(employee.getUserAccount())) {
-            model.addAttribute("existUserAccount", "User Account is already registered");
+            model.addAttribute("existUserAccount", "Username Account is already registered");
             model.addAttribute("workLocations", WorkLocation.values());
             return "employee-registration";
         }
@@ -75,6 +73,21 @@ public class EmployeeController {
     @GetMapping(path = "/employees/{id}")
     public String removeEmployee(@PathVariable(name = "id") String id) {
         employeeService.removeEmployee(id);
+        return "redirect:/employees";
+    }
+
+    @GetMapping(path = "/employees/{id}/toggle-lock")
+    public String lockEmployeeAccount(@PathVariable(name = "id") String id, Model model) {
+        Employee employee = employeeService.findById(id);
+
+        if (employee.getStatusAccount().name().equals(StatusAccount.ACTIVE.name())) {
+            employeeService.lockEmployeeAccount(id);
+            model.addAttribute("flashMessage", "Status Akun berhasil di LOCK");
+            return "redirect:/employees";
+        }
+
+        employeeService.unlockEmployeeAccount(id);
+        model.addAttribute("flashMessage", "Status Akun berhasil ACTIVE kembali");
         return "redirect:/employees";
     }
 

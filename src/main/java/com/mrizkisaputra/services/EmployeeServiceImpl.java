@@ -7,6 +7,7 @@ import com.mrizkisaputra.auth.repository.ApplicationUserRepository;
 import com.mrizkisaputra.auth.services.ApplicationUserService;
 import com.mrizkisaputra.models.dto.CreateEmployeeDTO;
 import com.mrizkisaputra.models.entity.Employee;
+import com.mrizkisaputra.models.entity.StatusAccount;
 import com.mrizkisaputra.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -76,6 +77,40 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void removeEmployee(String id) {
         userService.deleteUserAccount(id);
         employeeRepository.deleteById(id);
+    }
+
+    @Override
+    public Employee findById(String id) {
+        return employeeRepository.findById(id).get();
+    }
+
+    @Override
+    public Employee findByUserAccount(String userAccount) {
+        return employeeRepository.findByUserAccount(userAccount);
+    }
+
+    @Override
+    public void lockEmployeeAccount(String id) {
+//        ubah status active menjadi false
+        ApplicationUser applicationUser = userService.findByIdEmployee(id);
+        applicationUser.setActive(false);
+        userService.saveEmployeeAccount(applicationUser);
+
+        Employee employee = employeeRepository.findById(id).get();
+        employee.setStatusAccount(StatusAccount.LOCKED);
+        employeeRepository.save(employee);
+    }
+
+    @Override
+    public void unlockEmployeeAccount(String id) {
+        //        ubah status active menjadi false
+        ApplicationUser applicationUser = userService.findByIdEmployee(id);
+        applicationUser.setActive(true);
+        userService.saveEmployeeAccount(applicationUser);
+
+        Employee employee = employeeRepository.findById(id).get();
+        employee.setStatusAccount(StatusAccount.ACTIVE);
+        employeeRepository.save(employee);
     }
 
     @Override
